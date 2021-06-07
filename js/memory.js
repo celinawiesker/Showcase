@@ -50,62 +50,45 @@ var MemoryGame = new Phaser.Class({
         let cloud12 = this.add.image(0, 0, 'waffer');
         // End Loading Images 
 
-        // Creating an Array with the images
-        let cards = [cloud1, cloud2, cloud3, cloud4, cloud5, cloud6, cloud7, cloud8, cloud9, cloud10, cloud11, cloud12]
-        let openedCards = []
-        // End Array
+        cloud1.setName('1');
+        cloud2.setName('2');
+        cloud3.setName('3');
+        cloud4.setName('4');
+        cloud5.setName('5');
+        cloud6.setName('6');
+        cloud7.setName('7');
+        cloud8.setName('8');
+        cloud9.setName('9');
+        cloud10.setName('10');
+        cloud11.setName('11');
+        cloud12.setName('12');
 
-        
-        function between(min, max) {
-            return Math.floor(
-                Math.random() * (max - min + 1) + min
-            )
+        let cards = [1, 2, 3, 4 ,5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4 ,5, 6, 7, 8, 9, 10, 11, 12]
+
+        function shuffleArray(inputArray) {
+            inputArray.sort(() => Math.random() - 0.5);
         }
 
-        // Kann ich das hier nutzen, um meine Karten neu 
-        //zu sortieren oder reicht neu laden, um die Karten neu zu verteilen?
-        
-        // function shuffle(array) {
-        //     var currentIndex = array.length, temporaryValue, randomIndex;
+        shuffleArray(cards);
+        //console.log(cards);
 
-        //     while (currentIndex !== 0) {
-        //         randomIndex = Math.floor(Math.random() * currentIndex);
-        //         currentIndex -= 1;
-        //         temporaryValue = array[currentIndex];
-        //         array[currentIndex] = array[randomIndex];
-        //         array[randomIndex] = temporaryValue;
-        //     }
+        // Grid    //
+        let rows = 3;
+        let columns = 4;
+        let rowDist = 10;
+        let columnDist = 10;
+        rows + columns == cards.length;
 
-        //     return array;
-        // };
-
-        // empty the openCards array
-        openedCards = [];
-
-        //Positioning with for-loop
-        var i = between(0, cards.length)
-        var j = between(0, cards.length)
-
-        // Wieso sehe ich keine Images und wie bekomme ich die in einem Ratser dargestellt?
-        for (i = 0; i < cards.length; i++) {
-            for (i = 0; i < cards.length; i++) {
-                cards[index].setScale(0.3)
-                cards[index].setPosition(cards[j].x, cards[j].y);
-                cards[index].setInteractive();
-                cards[index].setName(index)
+        // For Loop //
+        for (let i = 0; i < columns; i++) {
+            for (let j = 0; j < rows; j++) {
+                cards[i + j].setPosition(rowDist * rows, columnDist * columns);
+                cards[i + j].setScale(0.3);
+                cards[i + j].setInteractive();
             }
         }
-
-        // Random Zahl increment um 1 und wenn die Zahl höher als 3 ist, dann wieder auf Null, also zum Anfang
-        i = i + 1;
-        if (i == 4) {
-            i = 0;
-        }
-
-        j = j + 1;
-        if (j == 4) {
-            j = 0;
-        }
+        // End for loop //     
+        // End Grid //
     },
 
     update: function () { },
@@ -115,4 +98,27 @@ var MemoryGame = new Phaser.Class({
         this.scene.start('StartScreen');
     },
     // End Buttons functions 
+
+    // Shuffle function
+    //     function shuffle(a) {
+    //         for(let i = a.length - 1; i > 0; i--) {
+    //     const j = Math.floor(Math.random() * (i + 1));
+    //     [a[i], a[j]] = [a[j], a[i]];
+    // }
+    // return a;
+    //         },
+
+    // Object.defineProperty(Array.prototype, 'shuffle', {
+    //     value: function() {
+    //         for (let i = this.length - 1; i > 0; i--) {
+    //             const j = Math.floor(Math.random() * (i + 1));
+    //             [this[i], this[j]] = [this[j], this[i]];
+    //         }
+    //         return this;
+    //     }
+    // });
+
+    // End shuffle function//
+    //https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array//
+
 });

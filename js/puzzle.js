@@ -23,14 +23,10 @@ var Puzzle = new Phaser.Class({
 
 
         //Create Button
-
         this.clickButton = this.add.image(50, 50, 'button_grey')
             .setInteractive()
             .setScale(0.15)
             .on('pointerdown', () => this.getToStartScreen())
-            // .on('pointerover', () => this.enterButtonHoverState())
-            // .on('pointerout', () => this.enterButtonRestState());
-
         // End Create Button
     },
 
@@ -40,16 +36,7 @@ var Puzzle = new Phaser.Class({
     // Button Functions
     getToStartScreen() {
         this.scene.start('StartScreen');
-    },
-
-    // enterButtonHoverState() {
-    //     this.clickButton.setStyle({ fill: '#ff0' });
-    // },
-
-    // enterButtonRestState() {
-    //     this.clickButton.setStyle({ fill: '#0f0' });
-    //   }
-
+    }
     // End Buttons functions 
 });
 
