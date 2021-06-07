@@ -48,22 +48,46 @@ var MemoryGame = new Phaser.Class({
         let cloud10 = this.add.image(0, 0, 'big_cake_choc');
         let cloud11 = this.add.image(0, 0, 'cherry_cake');
         let cloud12 = this.add.image(0, 0, 'waffer');
-        // End Loading Images 
+        let cloud13 = this.add.image(0, 0, 'cherry');
+        let cloud14 = this.add.image(0, 0, 'cake_rosa');
+        let cloud15 = this.add.image(0, 0, 'cake_orange');
+        let cloud16 = this.add.image(0, 0, 'cake_strawb');
+        let cloud17 = this.add.image(0, 0, 'bananas');
+        let cloud18 = this.add.image(0, 0, 'sandwich');
+        let cloud19 = this.add.image(0, 0, 'muffin');
+        let cloud20 = this.add.image(0, 0, 'orange');
+        let cloud21 = this.add.image(0, 0, 'cake_choc');
+        let cloud22 = this.add.image(0, 0, 'big_cake_choc');
+        let cloud23 = this.add.image(0, 0, 'cherry_cake');
+        let cloud24 = this.add.image(0, 0, 'waffer');
+        // End Loading Images
 
-        cloud1.setName('c1');
-        cloud2.setName('c2');
-        cloud3.setName('c3');
-        cloud4.setName('c4');
-        cloud5.setName('c5');
-        cloud6.setName('c6');
-        cloud7.setName('c7');
-        cloud8.setName('c8');
-        cloud9.setName('c9');
-        cloud10.setName('c10');
-        cloud11.setName('c11');
-        cloud12.setName('c12');
+        cloud1.setName('cloud1');
+        cloud2.setName('cloud2');
+        cloud3.setName('cloud3');
+        cloud4.setName('cloud4');
+        cloud5.setName('cloud5');
+        cloud6.setName('cloud6');
+        cloud7.setName('cloud7');
+        cloud8.setName('cloud8');
+        cloud9.setName('cloud9');
+        cloud10.setName('cloud10');
+        cloud11.setName('cloud11');
+        cloud12.setName('cloud12');
+        cloud13.setName('cloud1');
+        cloud14.setName('cloud2');
+        cloud15.setName('cloud3');
+        cloud16.setName('cloud4');
+        cloud17.setName('cloud5');
+        cloud18.setName('cloud6');
+        cloud19.setName('cloud7');
+        cloud20.setName('cloud8');
+        cloud21.setName('cloud9');
+        cloud22.setName('cloud10');
+        cloud23.setName('cloud11');
+        cloud24.setName('cloud12');
 
-        let cards = [cloud1, cloud2, cloud3, cloud4 ,cloud5, cloud6, cloud7, cloud8, cloud9, cloud10, cloud11, cloud12, cloud1, cloud2, cloud3, cloud4 ,cloud5, cloud6, cloud7, cloud8, cloud9, cloud10, cloud11, cloud12]
+        let cards = [cloud1, cloud2, cloud3, cloud4 ,cloud5, cloud6, cloud7, cloud8, cloud9, cloud10, cloud11, cloud12, cloud1, cloud2, cloud3, cloud4 , cloud5, cloud6, cloud7, cloud8, cloud9, cloud10, cloud11, cloud12]
 
         function shuffleArray(inputArray) {
             inputArray.sort(() => Math.random() - 0.5);
@@ -75,19 +99,23 @@ var MemoryGame = new Phaser.Class({
         // Grid    //
         let rows = 3;
         let columns = 4;
-        let rowDist = 10;
-        let columnDist = 10;
-        rows + columns == cards.length;
+        let rowDist = 100;
+        let columnDist = 100;
+        //rows + columns == cards.length;
 
         // For Loop //
+        let k=1;
         for (let i = 0; i < columns; i++) {
             for (let j = 0; j < rows; j++) {
-                cards[i + j].setPosition(rowDist * rows, columnDist * columns);
-                cards[i + j].setScale(0.3);
-                cards[i + j].setInteractive();
+                console.log(i, j)
+                cards[k].setPosition(100 + rowDist * j, 100 + columnDist * i);
+                cards[k].setScale(0.3);
+                cards[k].setInteractive();
+                console.log(cards[k].position, typeof (cards[i+j]))
+                k++;
             }
         }
-        // End for loop //     
+        // End for loop //
         // End Grid //
     },
 
@@ -97,7 +125,7 @@ var MemoryGame = new Phaser.Class({
     getToStartScreen() {
         this.scene.start('StartScreen');
     },
-    // End Buttons functions 
+    // End Buttons functions
 
     // Shuffle function
     //     function shuffle(a) {
