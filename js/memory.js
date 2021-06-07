@@ -50,20 +50,20 @@ var MemoryGame = new Phaser.Class({
         let cloud12 = this.add.image(0, 0, 'waffer');
         // End Loading Images 
 
-        cloud1.setName('1');
-        cloud2.setName('2');
-        cloud3.setName('3');
-        cloud4.setName('4');
-        cloud5.setName('5');
-        cloud6.setName('6');
-        cloud7.setName('7');
-        cloud8.setName('8');
-        cloud9.setName('9');
-        cloud10.setName('10');
-        cloud11.setName('11');
-        cloud12.setName('12');
+        cloud1.setName('c1');
+        cloud2.setName('c2');
+        cloud3.setName('c3');
+        cloud4.setName('c4');
+        cloud5.setName('c5');
+        cloud6.setName('c6');
+        cloud7.setName('c7');
+        cloud8.setName('c8');
+        cloud9.setName('c9');
+        cloud10.setName('c10');
+        cloud11.setName('c11');
+        cloud12.setName('c12');
 
-        let cards = [1, 2, 3, 4 ,5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4 ,5, 6, 7, 8, 9, 10, 11, 12]
+        let cards = [cloud1, cloud2, cloud3, cloud4 ,cloud5, cloud6, cloud7, cloud8, cloud9, cloud10, cloud11, cloud12, cloud1, cloud2, cloud3, cloud4 ,cloud5, cloud6, cloud7, cloud8, cloud9, cloud10, cloud11, cloud12]
 
         function shuffleArray(inputArray) {
             inputArray.sort(() => Math.random() - 0.5);
