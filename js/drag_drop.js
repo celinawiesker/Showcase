@@ -67,20 +67,20 @@ var DragAndDrop = new Phaser.Class({
         // Array mit möglichen Positionen, die ich mit einem for Loop zuweise 
         var stonesPos = [
             {
-                "x": 245,
-                "y": 690
+                "x": 150,
+                "y": 675
             },
             {
-                "x": 490,
-                "y": 690
+                "x": 470,
+                "y": 675
             },
             {
-                "x": 735,
-                "y": 690
+                "x": 800,
+                "y": 675
             },
             {
-                "x": 990,
-                "y": 690
+                "x": 1125,
+                "y": 675
             }
         ]
         /*SHELLS*/
@@ -93,20 +93,20 @@ var DragAndDrop = new Phaser.Class({
         // Array mit möglichen Positionen, die ich mit einem for Loop zuweise 
         var shellsPos = [
             {
-                "x": 300,
-                "y": 100
+                "x": 250,
+                "y": 275
             },
             {
-                "x": 450,
-                "y": 100
-            },
-            {
-                "x": 600,
-                "y": 100
+                "x": 500,
+                "y": 275
             },
             {
                 "x": 750,
-                "y": 100
+                "y": 275
+            },
+            {
+                "x": 1000,
+                "y": 275
             }
         ]
 
@@ -132,7 +132,7 @@ var DragAndDrop = new Phaser.Class({
 
             // referenziere die Steine aus dem Array und setzte gleiche Merkmale
             //stones[index].setOrigin(0, 0);
-            stones[index].setScale(0.4)
+            stones[index].setScale(0.5)
             stones[index].setPosition(stonesPos[i].x, stonesPos[i].y);
             stones[index].setName(index)
 
@@ -147,9 +147,8 @@ var DragAndDrop = new Phaser.Class({
             this.input.setDraggable(shells[index]);
 
             // [i] bezieht sich auf infos aus shells.pos array und stones.pos während [index] bezieht sich auf die array shells und stones
-            var zone = this.add.zone(stonesPos[i].x, stonesPos[i].y, stones[index].width * 0.4, stones[index].height * 0.4).setRectangleDropZone(stones[index].width * 0.4, stones[index].height * 0.4);
-            //zone.setOrigin(0, 0);
-            //zone.setPosition(stonesPos[i].x, stonesPos[i].y);
+            var zone = this.add.zone(stonesPos[i].x, stonesPos[i].y, stones[index].width * 0.6, stones[index].height * 0.9).setRectangleDropZone(stones[index].width * 0.6, stones[index].height * 0.9);
+
             zone.setScale(0.4);
             zone.setName(index);
             // Random Zahl increment um 1 und wenn die Zahl höher als 3 ist, dann wieder auf Null, also zum Anfang

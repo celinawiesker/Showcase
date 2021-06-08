@@ -87,28 +87,27 @@ var MemoryGame = new Phaser.Class({
         cloud23.setName('11');
         cloud24.setName('12');
 
-        let cards = [cloud1, cloud2, cloud3, cloud4 ,cloud5, cloud6, cloud7, cloud8, cloud9, cloud10, cloud11, cloud12, cloud13, cloud14, cloud15, cloud16 , cloud17, cloud18, cloud19, cloud20, cloud21, cloud22, cloud23, cloud24]
+        let cards = [cloud1, cloud2, cloud3, cloud4, cloud5, cloud6, cloud7, cloud8, cloud9, cloud10, cloud11, cloud12, cloud13, cloud14, cloud15, cloud16, cloud17, cloud18, cloud19, cloud20, cloud21, cloud22, cloud23, cloud24]
 
         function shuffleArray(inputArray) {
             inputArray.sort(() => Math.random() - 0.5);
         }
 
         shuffleArray(cards);
-        //console.log(cards);
 
         // Grid    //
         let rows = 6;
         let columns = 4;
-        let rowDist = 150;
-        let columnDist = 100;
+        let rowDist = 185;
+        let columnDist = 170;
         //rows + columns == cards.length;
 
         // For Loop //
-        let k=0;
+        let k = 0;
         for (let i = 0; i < columns; i++) {
             for (let j = 0; j < rows; j++) {
                 console.log('i', i, 'j', j, 'k', k)
-                cards[k].setPosition(100+ rowDist * j, 100+columnDist * i);
+                cards[k].setPosition(150 + rowDist * j, 170 + columnDist * i);
                 cards[k].setScale(0.3);
                 cards[k].setInteractive();
                 console.log('name', cards[k].name, 'location', cards[k].x, cards[k].y)
@@ -117,7 +116,34 @@ var MemoryGame = new Phaser.Class({
         }
         // End for loop //
         // End Grid //
-    },
+
+        this.input.on('pointerdown', function (pointer) {
+            // Wie mache ich es, dass zwei Klicke bewirken, dass die Karten
+            // verglichen werden und bei zwei gleichen Karten ein Paar gefunden wird?
+        }, this);
+
+        let firstPress;
+
+
+        eventcalled(e)
+        {
+            if (firstPress != 0) {
+                // we have to check if it's a match
+                if (e.number == firstPress) {
+                    // MATHCH!!
+                }
+                else {
+                    // NO MATCH!!
+                }
+                firstPress = 0;
+            }
+            else {
+                // this is the firstpress
+
+                firstPress = e.number;
+            }
+        }
+    }, //End create ()
 
     update: function () { },
 
@@ -127,26 +153,8 @@ var MemoryGame = new Phaser.Class({
     },
     // End Buttons functions
 
-    // Shuffle function
-    //     function shuffle(a) {
-    //         for(let i = a.length - 1; i > 0; i--) {
-    //     const j = Math.floor(Math.random() * (i + 1));
-    //     [a[i], a[j]] = [a[j], a[i]];
-    // }
-    // return a;
-    //         },
 
-    // Object.defineProperty(Array.prototype, 'shuffle', {
-    //     value: function() {
-    //         for (let i = this.length - 1; i > 0; i--) {
-    //             const j = Math.floor(Math.random() * (i + 1));
-    //             [this[i], this[j]] = [this[j], this[i]];
-    //         }
-    //         return this;
-    //     }
-    // });
-
-    // End shuffle function//
-    //https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array//
 
 });
+
+
