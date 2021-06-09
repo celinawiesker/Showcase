@@ -110,6 +110,7 @@ var MemoryGame = new Phaser.Class({
                 cards[k].setPosition(150 + rowDist * j, 170 + columnDist * i);
                 cards[k].setScale(0.3);
                 cards[k].setInteractive();
+                console.log(cards[k])
                 //console.log('name', cards[k].name, 'location', cards[k].x, cards[k].y)
                 k++;
             }
@@ -120,30 +121,49 @@ var MemoryGame = new Phaser.Class({
 
         let firstPress;
         firstPress = 0;
-        
+        this.input.on('gameobjectdown', function (pointer, gameObject) {
 
-        this.input.on('pointerdown', function (event, gameObjects) {
-
-            if (firstPress != 0) {
-                // we have to check if it's a match
-                if (cards.name == firstPress) {
-                    console.log('Name', cards.name)
-                    console.log('First press', firstPress)
-                    console.log("Match!")
-                }
-                else {
-                    console.log("No Match!")
-                }
-                firstPress = 0;
-            }
-
-            else {
-                // this is the firstpress
-                firstPress = cards.name;
-            }
-
+            checkMatch(gameObject);
 
         });
+
+        //this.input.on('pointerdown', checkMatch());
+        //Create Button
+        // this.clickGameObject.on('pointerdown', () => this.checkMatch())
+        // End Create Button
+
+        function checkMatch(card) {
+            if (!card.isTinted) {
+                console.log(card.name, firstPress)
+
+                // Lila = 0xffb9b3fa
+                // Hellblau = 0xffb3fbff
+                card.setTint(0xffb3fbff);
+                if (firstPress != 0) {
+                    // we have to check if it's a match
+                    if (card.name == firstPress.name) {
+                        //
+                        card.destroy();
+                        firstPress.destroy();
+                        console.log('Name', card.name)
+                        console.log('First press', firstPress)
+                        console.log("Match!")
+                    }
+                    else {
+                        card.clearTint()
+                        firstPress.clearTint()
+                        console.log("No Match!")
+                    }
+                    firstPress = 0;
+                }
+
+                else {
+                    // this is the firstpress
+                    firstPress = card;
+                }
+            }
+
+        };
 
     }, //End create ()
 
