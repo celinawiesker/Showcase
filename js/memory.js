@@ -106,43 +106,45 @@ var MemoryGame = new Phaser.Class({
         let k = 0;
         for (let i = 0; i < columns; i++) {
             for (let j = 0; j < rows; j++) {
-                console.log('i', i, 'j', j, 'k', k)
+                //console.log('i', i, 'j', j, 'k', k)
                 cards[k].setPosition(150 + rowDist * j, 170 + columnDist * i);
                 cards[k].setScale(0.3);
                 cards[k].setInteractive();
-                console.log('name', cards[k].name, 'location', cards[k].x, cards[k].y)
+                //console.log('name', cards[k].name, 'location', cards[k].x, cards[k].y)
                 k++;
             }
         }
         // End for loop //
         // End Grid //
 
-        this.input.on('pointerdown', function (pointer) {
-            // Wie mache ich es, dass zwei Klicke bewirken, dass die Karten
-            // verglichen werden und bei zwei gleichen Karten ein Paar gefunden wird?
-        }, this);
 
         let firstPress;
+        firstPress = 0;
+        
 
+        this.input.on('pointerdown', function (event, gameObjects) {
 
-        eventcalled(e)
-        {
             if (firstPress != 0) {
                 // we have to check if it's a match
-                if (e.number == firstPress) {
-                    // MATHCH!!
+                if (cards.name == firstPress) {
+                    console.log('Name', cards.name)
+                    console.log('First press', firstPress)
+                    console.log("Match!")
                 }
                 else {
-                    // NO MATCH!!
+                    console.log("No Match!")
                 }
                 firstPress = 0;
             }
+
             else {
                 // this is the firstpress
-
-                firstPress = e.number;
+                firstPress = cards.name;
             }
-        }
+
+
+        });
+
     }, //End create ()
 
     update: function () { },
