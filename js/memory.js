@@ -138,7 +138,9 @@ var MemoryGame = new Phaser.Class({
 
                 // Lila = 0xffb9b3fa
                 // Hellblau = 0xffb3fbff
-                card.setTint(0xffb3fbff);
+                // Hellgelb = 0xffffffbf
+                // Hellgrau = 0xffd7d7d6
+                card.setTint(0xffd7d7d6);
                 if (firstPress != 0) {
                     // we have to check if it's a match
                     if (card.name == firstPress.name) {
