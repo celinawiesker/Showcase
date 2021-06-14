@@ -17,36 +17,6 @@ var DragAndDrop = new Phaser.Class({
         this.load.image("underwater_bg", "../img/underwater/underwater_bg.png")
         this.load.image("button_grey", "../img/button_grey.png")
 
-        //Brauche ich das???
-        json = {
-            "shells": {
-                "pos": [
-                    {
-                        "x": 1,
-                        "y": 2
-                    },
-                    {
-                        "x": 4,
-                        "y": 5
-                    },
-                    {
-                        "x": 7,
-                        "y": 8
-                    },
-                    {
-                        "x": 9,
-                        "y": 10
-                    }
-                ],
-                "color": [
-                    "yellow",
-                    "pink",
-                    "green",
-                    "purple"
-                ]
-            }
-        };
-
     },
     create: function () {
         /* BACKGROUND */
@@ -54,14 +24,13 @@ var DragAndDrop = new Phaser.Class({
         let underwater_bg = this.add.image(0, 0, 'underwater_bg');
         underwater_bg.setOrigin(0, 0);
         //this.underwater_bg.scale.startFullscreen();
-        
+
         /*STONES*/
         // Lade die Bilder
         let stone_green = this.add.image(0, 0, 'stone_green');
         let stone_pink = this.add.image(0, 0, 'stone_pink');
         let stone_yellow = this.add.image(0, 0, 'stone_yellow');
         let stone_purple = this.add.image(0, 0, 'stone_purple');
-
 
 
         // Array mit möglichen Positionen, die ich mit einem for Loop zuweise 
@@ -199,7 +168,7 @@ var DragAndDrop = new Phaser.Class({
 
                     if (successful == 4) {
                         console.log("nextLevel",)
-                        this.scene.restart();
+                        this.scene.start('DragAndDrop');
                     }
 
                 }
@@ -231,14 +200,16 @@ var DragAndDrop = new Phaser.Class({
             if (j == 4) {
                 j = 0;
             }
+
         }
-        
+
         //Create Button
         this.clickButton = this.add.image(50, 50, 'button_grey')
             .setInteractive()
             .setScale(0.15)
             .on('pointerdown', () => this.getToStartScreen())
         // End Button
+
 
     }, // End create
     update: function () { },
@@ -248,7 +219,6 @@ var DragAndDrop = new Phaser.Class({
         this.scene.start('StartScreen');
     },
     // End Buttons function
-
 
 });
 

@@ -110,7 +110,7 @@ var MemoryGame = new Phaser.Class({
                 cards[k].setPosition(150 + rowDist * j, 170 + columnDist * i);
                 cards[k].setScale(0.3);
                 cards[k].setInteractive();
-                console.log(cards[k])
+                //console.log(cards[k])
                 //console.log('name', cards[k].name, 'location', cards[k].x, cards[k].y)
                 k++;
             }
@@ -131,10 +131,11 @@ var MemoryGame = new Phaser.Class({
         //Create Button
         // this.clickGameObject.on('pointerdown', () => this.checkMatch())
         // End Create Button
+        let successful = 0;
 
         function checkMatch(card) {
             if (!card.isTinted) {
-                console.log(card.name, firstPress)
+                //console.log(card.name, firstPress)
 
                 // Lila = 0xffb9b3fa
                 // Hellblau = 0xffb3fbff
@@ -147,9 +148,15 @@ var MemoryGame = new Phaser.Class({
                         //
                         card.destroy();
                         firstPress.destroy();
-                        console.log('Name', card.name)
-                        console.log('First press', firstPress)
+                        // console.log('Name', card.name)
+                        // console.log('First press', firstPress)
                         console.log("Match!")
+                        successful = successful + 1;
+
+                        if (successful == 12) {
+                            console.log("nextLevel",)
+                        }
+
                     }
                     else {
                         card.clearTint()
