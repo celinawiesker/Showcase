@@ -73,7 +73,7 @@ var StartScreen = new Phaser.Class({
     },
 
     getToPuzzle() {
-        this.scene.start('Puzzle');
+        this.scene.start('Puzzle_Load');
     },
 
     getToDragAndDrop() {

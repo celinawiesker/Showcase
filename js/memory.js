@@ -34,6 +34,7 @@ var MemoryGame = new Phaser.Class({
             .setScale(0.15)
             .on('pointerdown', () => this.getToStartScreen())
         // End Create Button
+        let cards;
 
         //Loading the images
         let cloud1 = this.add.image(0, 0, 'cherry');
@@ -62,130 +63,148 @@ var MemoryGame = new Phaser.Class({
         let cloud24 = this.add.image(0, 0, 'waffer');
         // End Loading Images
 
-        cloud1.setName('1');
-        cloud2.setName('2');
-        cloud3.setName('3');
-        cloud4.setName('4');
-        cloud5.setName('5');
-        cloud6.setName('6');
-        cloud7.setName('7');
-        cloud8.setName('8');
-        cloud9.setName('9');
-        cloud10.setName('10');
-        cloud11.setName('11');
-        cloud12.setName('12');
-        cloud13.setName('1');
-        cloud14.setName('2');
-        cloud15.setName('3');
-        cloud16.setName('4');
-        cloud17.setName('5');
-        cloud18.setName('6');
-        cloud19.setName('7');
-        cloud20.setName('8');
-        cloud21.setName('9');
-        cloud22.setName('10');
-        cloud23.setName('11');
-        cloud24.setName('12');
+        function init() {
+            cloud1.setName('1');
+            cloud2.setName('2');
+            cloud3.setName('3');
+            cloud4.setName('4');
+            cloud5.setName('5');
+            cloud6.setName('6');
+            cloud7.setName('7');
+            cloud8.setName('8');
+            cloud9.setName('9');
+            cloud10.setName('10');
+            cloud11.setName('11');
+            cloud12.setName('12');
+            cloud13.setName('1');
+            cloud14.setName('2');
+            cloud15.setName('3');
+            cloud16.setName('4');
+            cloud17.setName('5');
+            cloud18.setName('6');
+            cloud19.setName('7');
+            cloud20.setName('8');
+            cloud21.setName('9');
+            cloud22.setName('10');
+            cloud23.setName('11');
+            cloud24.setName('12');
 
-        let cards = [cloud1, cloud2, cloud3, cloud4, cloud5, cloud6, cloud7, cloud8, cloud9, cloud10, cloud11, cloud12, cloud13, cloud14, cloud15, cloud16, cloud17, cloud18, cloud19, cloud20, cloud21, cloud22, cloud23, cloud24]
+            cards = [cloud1, cloud2, cloud3, cloud4, cloud5, cloud6, cloud7, cloud8, cloud9, cloud10, cloud11, cloud12, cloud13, cloud14, cloud15, cloud16, cloud17, cloud18, cloud19, cloud20, cloud21, cloud22, cloud23, cloud24];
+
+            shuffleArray(cards);
+        }
+
+        init();
+
 
         function shuffleArray(inputArray) {
             inputArray.sort(() => Math.random() - 0.5);
         }
 
-        shuffleArray(cards);
+        function reset() {
 
-        // Grid    //
-        let rows = 6;
-        let columns = 4;
-        let rowDist = 185;
-        let columnDist = 170;
-        //rows + columns == cards.length;
-
-        // For Loop //
-        let k = 0;
-        for (let i = 0; i < columns; i++) {
-            for (let j = 0; j < rows; j++) {
-                //console.log('i', i, 'j', j, 'k', k)
-                cards[k].setPosition(150 + rowDist * j, 170 + columnDist * i);
-                cards[k].setScale(0.3);
-                cards[k].setInteractive();
-                //console.log(cards[k])
-                //console.log('name', cards[k].name, 'location', cards[k].x, cards[k].y)
-                k++;
+            shuffleArray(cards);
+            for (let i = 0; i< 24; i++){
+                cards[i].visible = true;
+                cards[i].clearTint();
             }
-        }
-        // End for loop //
-        // End Grid //
+            console.log('working')
+            }
 
 
-        let firstPress;
-        firstPress = 0;
-        this.input.on('gameobjectdown', function (pointer, gameObject) {
+            // Grid    //
+            let rows = 6;
+            let columns = 4;
+            let rowDist = 185;
+            let columnDist = 170;
+            //rows + columns == cards.length;
 
-            checkMatch(gameObject);
+            // For Loop //
+            let k = 0;
+            for (let i = 0; i < columns; i++) {
+                for (let j = 0; j < rows; j++) {
+                    //console.log('i', i, 'j', j, 'k', k)
+                    cards[k].setPosition(150 + rowDist * j, 170 + columnDist * i);
+                    cards[k].setScale(0.3);
+                    cards[k].setInteractive();
+                    //console.log(cards[k])
+                    //console.log('name', cards[k].name, 'location', cards[k].x, cards[k].y)
+                    k++;
+                }
+            }
+            // End for loop //
+            // End Grid //
 
-        });
 
-        //this.input.on('pointerdown', checkMatch());
-        //Create Button
-        // this.clickGameObject.on('pointerdown', () => this.checkMatch())
-        // End Create Button
-        let successful = 0;
+            let firstPress;
+            firstPress = 0;
+            this.input.on('gameobjectdown', function (pointer, gameObject) {
 
-        function checkMatch(card) {
-            if (!card.isTinted) {
-                //console.log(card.name, firstPress)
+                checkMatch(gameObject);
 
-                // Lila = 0xffb9b3fa
-                // Hellblau = 0xffb3fbff
-                // Hellgelb = 0xffffffbf
-                // Hellgrau = 0xffd7d7d6
-                card.setTint(0xffd7d7d6);
-                if (firstPress != 0) {
-                    // we have to check if it's a match
-                    if (card.name == firstPress.name) {
-                        //
-                        card.destroy();
-                        firstPress.destroy();
-                        // console.log('Name', card.name)
-                        // console.log('First press', firstPress)
-                        console.log("Match!")
-                        successful = successful + 1;
+            });
 
-                        if (successful == 12) {
-                            console.log("nextLevel",)
+            //this.input.on('pointerdown', checkMatch());
+            //Create Button
+            // this.clickGameObject.on('pointerdown', () => this.checkMatch())
+            // End Create Button
+            let successful = 0;
+
+            function checkMatch(card) {
+                if (!card.isTinted) {
+                    //console.log(card.name, firstPress)
+
+                    // Lila = 0xffb9b3fa
+                    // Hellblau = 0xffb3fbff
+                    // Hellgelb = 0xffffffbf
+                    // Hellgrau = 0xffd7d7d6
+                    card.setTint(0xffd7d7d6);
+                    if (firstPress != 0) {
+                        // we have to check if it's a match
+                        if (card.name == firstPress.name) {
+                            //
+                            card.visible = false;
+                            firstPress.visible = false;
+                            //card.destroy();
+                            //firstPress.destroy();
+                            // console.log('Name', card.name)
+                            // console.log('First press', firstPress)
+                            console.log("Match!")
+                            successful = successful + 1;
+
+                            if (successful == 12) {
+                                console.log("nextLevel")
+                                reset();
+                            }
+
                         }
-
+                        else {
+                            card.clearTint()
+                            firstPress.clearTint()
+                            console.log("No Match!")
+                        }
+                        firstPress = 0;
                     }
+
                     else {
-                        card.clearTint()
-                        firstPress.clearTint()
-                        console.log("No Match!")
+                        // this is the firstpress
+                        firstPress = card;
                     }
-                    firstPress = 0;
                 }
 
-                else {
-                    // this is the firstpress
-                    firstPress = card;
-                }
-            }
+            };
 
-        };
+        }, //End create ()
 
-    }, //End create ()
+        update: function () { },
 
-    update: function () { },
-
-    // Button Functions
-    getToStartScreen() {
-        this.scene.start('StartScreen');
-    },
-    // End Buttons functions
+        // Button Functions
+        getToStartScreen() {
+            this.scene.start('StartScreen');
+        },
+        // End Buttons functions
 
 
 
-});
-
+    });
 

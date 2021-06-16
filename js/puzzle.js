@@ -1,42 +1,170 @@
+function rand (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 var Puzzle = new Phaser.Class({
-    Extends: Phaser.Scene,
-    initialize: function () {
-        Phaser.Scene.call(this, { "key": "Puzzle" });
-    },
-    init: function () { },
-    preload: function () {
-        this.load.image("button_grey", "../img/button_grey.png")
-        this.load.image("button_green", "../img/button_green.png")
-    },
+	Extends: Phaser.Scene,
+	initialize: function () {
+		Phaser.Scene.call(this, { "key": "Puzzle" });
+	},
+	init: function () { },
+    preload: function () { },
+
     create: function () {
+    //load source image to get image height/width properties
+    this.src_image = this.add.image(this.w/2, this.h/2, pic);
+		this.src_image.anchor.setTo(0.5);
+    this.src_image.visible = false;
 
-        var text = this.add.text(
-            640,
-            360,
-            "Puzzle",
-            {
-                fontSize: 50,
-                color: "#000000",
-                fontStyle: "bold"
-            }
-        ).setOrigin(0.5);
+    var w = this.src_image.width;
+    var h = this.src_image.height;
 
+    //User to center piece
+    this.offsetX = (this.w - w)/2; 
+    this.offsetY = (this.h - h)/2; 
 
-        //Create Button
-        this.clickButton = this.add.image(50, 50, 'button_grey')
-            .setInteractive()
-            .setScale(0.15)
-            .on('pointerdown', () => this.getToStartScreen())
-        // End Create Button
-    },
+    this.tile_width = Math.floor(w/this.square);
+    this.tile_height = Math.floor(h/this.square);
 
+    this.pieces = [];
+		this.slots = [];
+    this.background = {};
+		this.piece_list = {};
 
-    update: function () { },
+    //Setup Background Game Board
+    for (var i = 0; i < this.square;i++) {
+      for (var j = 0; j < this.square;j++) {
 
-    // Button Functions
-    getToStartScreen() {
-        this.scene.start('StartScreen');
+				var slot = this.add.sprite(this.offsetX+j*this.tile_width,this.offsetY+i*this.tile_height, this.makeBox(this.tile_width, this.tile_height));
+				slot.j = j;
+				slot.i = i;
+				this.background[j+'_'+i] = slot;
+				this.slots.push(slot);
+			}
+		}
+
+    // Offset for puzzle sizes
+    // 0 - flat
+    // -1 - valley 
+    // 1 - hill
+    var choice = [-1, 1]; 
+
+    for (var i = 0; i < this.square;i++) {
+      for (var j = 0; j < this.square;j++) {
+
+        var sides = {ls: 0, bs: 0, rs: 0, ts: 0};
+
+        //above - choose piece to fit the above piece
+        if (this.piece_list[j+'_'+(i-1)] !== undefined) {
+          sides.ts = this.piece_list[j+'_'+(i-1)].bottom_side * -1;
+        }else {
+          sides.ts = choice[rand(0,1)]; 
+        }
+
+        //left - choose piece to fit the left piece
+        if (this.piece_list[(j-1)+'_'+i] !== undefined) {
+          sides.ls = this.piece_list[(j-1)+'_'+i].right_side * -1;
+        }else {
+          sides.ls = choice[rand(0,1)]; 
+        }
+
+        //bottom
+        sides.bs = choice[rand(0,1)];
+
+        //right
+        sides.rs = choice[rand(0,1)];
+
+        if (j === (this.square -1)) { sides.rs = 0; }
+        if (i === 0) { sides.ts = 0; }
+        if (i === (this.square - 1)) { sides.bs = 0; }
+        if (j === 0) { sides.ls = 0; }
+
+        var piece = new PuzzlePiece(this, this.offsetX+j*this.tile_width, this.offsetY+i*this.tile_height, j, i, this.tile_width, this.tile_height,pic, sides);
+
+				piece.events.onDragStart.add(this.onDragStart, this);
+				piece.events.onDragStop.add(this.onDragStop, this);
+				
+        this.pieces.push(piece);
+        this.piece_list[j+'_'+i] = piece;
+
+      }
     }
-    // End Buttons functions 
-});
+},
 
+	onDragStart: function(sprite, pointer) {
+    this.world.bringToTop(sprite);
+	},
+
+	onDragStop: function(piece, pointer) {
+		var slot = this.background[piece.j+'_'+piece.i];
+
+		if (Phaser.Rectangle.intersects(piece.getBounds(), slot.getBounds())) {
+      //Disable and place piece
+			this.world.sendToBack(piece);
+			slot.visible = false;
+			piece.inputEnabled = false;
+			piece.input.enableDrag(false);
+			piece.x = piece.initialX;
+			piece.y = piece.initialY;
+			this.slots.forEach(function(slot) {
+				this.game.world.sendToBack(slot);
+			},this);
+
+			this.won = this.checkWin();
+		}
+	},
+
+	checkWin: function() {
+		var won = true;
+		for(var i=0; i< this.pieces.length;i++) {
+			if (this.pieces[i].x !== this.pieces[i].initialX && this.pieces[i].y !== this.pieces[i].initialY) {
+				won = false;
+				}
+		}
+		return won;
+	},
+
+	scatter: function() {
+		for (var s=0; s < this.pieces.length;s++) {
+			var piece = this.pieces[s];
+			piece.x = rand(0, this.w-this.tile_width/2);
+			piece.y = rand(this.tile_height/2, this.h-this.tile_height/2);
+		}
+	},
+
+	destroy: function() {
+		this.slots.forEach(function(slot) {
+			slot.destroy();
+		},this);
+		this.pieces.forEach(function(piece) {
+			piece.destroy();
+		},this);
+	},
+
+	preview_toggle: function() {
+		if (this.src_image.visible === false) {
+			this.src_image.visible = true;
+			this.world.bringToTop(this.src_image);
+			this.pieces.forEach(function(piece) {
+				piece.visible = false;
+			},this);
+		}else {
+			this.src_image.visible = false;
+			this.pieces.forEach(function(piece) {
+				piece.visible = true;
+			},this);
+		}
+	},
+
+  makeBox: function(x,y) {
+      var bmd = this.add.bitmapData(x, y);
+      bmd.ctx.beginPath();
+      bmd.ctx.rect(0, 0, x, y);
+      bmd.ctx.fillStyle = '#202020';
+			bmd.ctx.lineStyle = 4;
+      bmd.ctx.strokeStyle = '#ff00ff';
+      bmd.ctx.fill();
+      return bmd;
+    },
+	
+});
