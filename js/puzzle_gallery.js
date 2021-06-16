@@ -24,24 +24,24 @@ var PuzzleGallery = new Phaser.Class({
 
     //==============================================================================================
 
-    // x = 220;
-    // y = 160;
-    // count = 0
-    // for (var i = 1; i < 10; i++) {
-    //   count += 1;
-    //   var b = this.add.image(x, y, i.toString());
-    //   // b.gallery = i.toString();
-    //   //b.anchor.setTo(0.5);
-    //   b.scale.x = 0.3;
-    //   b.scale.y = 0.3;
-    //   x += 300;
-    //   // y += 20;
-    //   if (count === 3) {
-    //     count = 0;
-    //     y += 220;
-    //     x = 220;
-    //   }
-    //}
+    x = 220;
+    y = 160;
+    count = 0
+    for (var i = 1; i < 10; i++) {
+      count += 1;
+      var b = this.add.image(x, y, i.toString());
+      // b.gallery = i.toString();
+      //b.anchor.setTo(0.5);
+      b.scale.x = 0.3;
+      b.scale.y = 0.3;
+      x += 300;
+      // y += 20;
+      if (count === 3) {
+        count = 0;
+        y += 220;
+        x = 220;
+      }
+    }
     console.log('End Gallery')
   },
 
