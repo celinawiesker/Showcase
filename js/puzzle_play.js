@@ -4,10 +4,10 @@ var sKey;
 var dKey;
 var score = 0;
 
-var PuzzleGame = new Phaser.Class({
+var PuzzlePlay = new Phaser.Class({
     Extends: Phaser.Scene,
     initialize: function () {
-        Phaser.Scene.call(this, { "key": "Puzzle_Game" });
+        Phaser.Scene.call(this, { "key": "Puzzle_Play" });
     },
     init: function () { },
     preload: function () {
@@ -81,7 +81,7 @@ var PuzzleGame = new Phaser.Class({
       },
 
       nextLevel: function () {
-        this.scene.start('Puzzle_Select');
+        this.scene.start('Puzzle_Gallery');
       }
 });
 

@@ -28,7 +28,7 @@ var PuzzleLoad = new Phaser.Class({
   },
   create: function () {
     console.log('Start Load')
-    this.scene.start('Puzzle_Select');
+    this.scene.start('Puzzle_Gallery');
     console.log('End Load')
   }
 });

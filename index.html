@@ -11,11 +11,11 @@
 
     <!-- build:js js/main.min.js -->
     <script type="text/javascript" src="js/puzzle_load.js"></script>
-    <script type="text/javascript" src="js/puzzle_select.js"></script>
+    <script type="text/javascript" src="js/puzzle_gallery.js"></script>
     <script type="text/javascript" src="js/puzzle.js"></script>
     <script type="text/javascript" src="js/puzzle_piece.js"></script>
     <script type="text/javascript" src="js/puzzle_menu.js"></script>
-    <script type="text/javascript" src="js/puzzle_game.js"></script>
+    <script type="text/javascript" src="js/puzzle_play.js"></script>
     
     <!-- endbuild -->
 </head>
@@ -43,7 +43,7 @@
                 // Center vertically and horizontally
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
-            scene: [StartScreen, MemoryGame, PuzzleSelect, PuzzleGame, PuzzleLoad, PuzzleMenu, Puzzle, DragAndDrop]
+            scene: [StartScreen, MemoryGame, PuzzleGallery, PuzzlePlay, PuzzleLoad, PuzzleMenu, Puzzle, DragAndDrop]
         };
 
         const game = new Phaser.Game(phaserConfig);
