@@ -32,7 +32,6 @@ var DragAndDrop = new Phaser.Class({
         let stone_yellow = this.add.image(0, 0, 'stone_yellow');
         let stone_purple = this.add.image(0, 0, 'stone_purple');
 
-
         // Array mit möglichen Positionen, die ich mit einem for Loop zuweise 
         var stonesPos = [
             {
@@ -114,6 +113,7 @@ var DragAndDrop = new Phaser.Class({
             shells[index].setName(index)
 
             this.input.setDraggable(shells[index]);
+
 
             // [i] bezieht sich auf infos aus shells.pos array und stones.pos während [index] bezieht sich auf die array shells und stones
             var zone = this.add.zone(stonesPos[i].x, stonesPos[i].y, stones[index].width * 0.6, stones[index].height * 0.9).setRectangleDropZone(stones[index].width * 0.6, stones[index].height * 0.9);
@@ -202,6 +202,8 @@ var DragAndDrop = new Phaser.Class({
             }
 
         }
+
+
 
         //Create Button
         this.clickButton = this.add.image(50, 50, 'button_grey')
