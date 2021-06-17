@@ -18,6 +18,8 @@ var PuzzleLoad = new Phaser.Class({
     this.load.image('background', 'img/puzzle/title.png');
     this.load.image('play_bg', 'img/puzzle/play_bg.png');
 
+    this.load.image("button_grey", "../img/button_grey.png")
+
     for (var i = 1; i < 10; i++) {
       this.load.image(i.toString(), 'img/puzzle/' + i.toString() + '.png');
     }

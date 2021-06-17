@@ -2,26 +2,25 @@ function rand (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-var Puzzle = new Phaser.Class({
-	Extends: Phaser.Scene,
-	initialize: function () {
-		Phaser.Scene.call(this, { "key": "Puzzle" });
-	},
-	init: function () { },
-    preload: function () { },
+var Puzzle = function(game, pic, square) {
+  console.log(game, pic, square, this)
+  this.game = game;
+  this.pic = pic;
+  this.square = square;
+	this.won = false;
 
-    create: function () {
     //load source image to get image height/width properties
-    this.src_image = this.add.image(this.w/2, this.h/2, pic);
-		this.src_image.anchor.setTo(0.5);
+    this.src_image = this.game.add.image(this.game.w/2, this.game.h/2, pic);
+    console.log(this.src_image)
+		//this.src_image.scale = 0.5;
     this.src_image.visible = false;
 
     var w = this.src_image.width;
     var h = this.src_image.height;
 
     //User to center piece
-    this.offsetX = (this.w - w)/2; 
-    this.offsetY = (this.h - h)/2; 
+    this.offsetX = (this.game.w - w)/2;
+    this.offsetY = (this.game.h - h)/2;
 
     this.tile_width = Math.floor(w/this.square);
     this.tile_height = Math.floor(h/this.square);
@@ -32,22 +31,22 @@ var Puzzle = new Phaser.Class({
 		this.piece_list = {};
 
     //Setup Background Game Board
-    for (var i = 0; i < this.square;i++) {
+  /**  for (var i = 0; i < this.square;i++) {
       for (var j = 0; j < this.square;j++) {
 
-				var slot = this.add.sprite(this.offsetX+j*this.tile_width,this.offsetY+i*this.tile_height, this.makeBox(this.tile_width, this.tile_height));
+				var slot = this.game.add.sprite(this.offsetX+j*this.tile_width,this.offsetY+i*this.tile_height, this.makeBox(this.tile_width, this.tile_height));
 				slot.j = j;
 				slot.i = i;
 				this.background[j+'_'+i] = slot;
 				this.slots.push(slot);
 			}
 		}
-
+*/
     // Offset for puzzle sizes
     // 0 - flat
-    // -1 - valley 
+    // -1 - valley
     // 1 - hill
-    var choice = [-1, 1]; 
+    var choice = [-1, 1];
 
     for (var i = 0; i < this.square;i++) {
       for (var j = 0; j < this.square;j++) {
@@ -58,14 +57,14 @@ var Puzzle = new Phaser.Class({
         if (this.piece_list[j+'_'+(i-1)] !== undefined) {
           sides.ts = this.piece_list[j+'_'+(i-1)].bottom_side * -1;
         }else {
-          sides.ts = choice[rand(0,1)]; 
+          sides.ts = choice[rand(0,1)];
         }
 
         //left - choose piece to fit the left piece
         if (this.piece_list[(j-1)+'_'+i] !== undefined) {
           sides.ls = this.piece_list[(j-1)+'_'+i].right_side * -1;
         }else {
-          sides.ls = choice[rand(0,1)]; 
+          sides.ls = choice[rand(0,1)];
         }
 
         //bottom
@@ -79,28 +78,31 @@ var Puzzle = new Phaser.Class({
         if (i === (this.square - 1)) { sides.bs = 0; }
         if (j === 0) { sides.ls = 0; }
 
-        var piece = new PuzzlePiece(this, this.offsetX+j*this.tile_width, this.offsetY+i*this.tile_height, j, i, this.tile_width, this.tile_height,pic, sides);
+        var piece = new PuzzlePiece(this.game, this.offsetX+j*this.tile_width, this.offsetY+i*this.tile_height, j, i, this.tile_width, this.tile_height,pic, sides);
 
 				piece.events.onDragStart.add(this.onDragStart, this);
 				piece.events.onDragStop.add(this.onDragStop, this);
-				
+
         this.pieces.push(piece);
         this.piece_list[j+'_'+i] = piece;
 
       }
     }
-},
+};
 
+Puzzle.prototype = Puzzle.prototype.constructor = Puzzle;
+
+Puzzle.prototype = {
 	onDragStart: function(sprite, pointer) {
-    this.world.bringToTop(sprite);
+    this.game.world.bringToTop(sprite);
 	},
-
 	onDragStop: function(piece, pointer) {
+
 		var slot = this.background[piece.j+'_'+piece.i];
 
 		if (Phaser.Rectangle.intersects(piece.getBounds(), slot.getBounds())) {
       //Disable and place piece
-			this.world.sendToBack(piece);
+			this.game.world.sendToBack(piece);
 			slot.visible = false;
 			piece.inputEnabled = false;
 			piece.input.enableDrag(false);
@@ -112,8 +114,8 @@ var Puzzle = new Phaser.Class({
 
 			this.won = this.checkWin();
 		}
-	},
 
+	},
 	checkWin: function() {
 		var won = true;
 		for(var i=0; i< this.pieces.length;i++) {
@@ -123,15 +125,14 @@ var Puzzle = new Phaser.Class({
 		}
 		return won;
 	},
-
 	scatter: function() {
 		for (var s=0; s < this.pieces.length;s++) {
 			var piece = this.pieces[s];
-			piece.x = rand(0, this.w-this.tile_width/2);
-			piece.y = rand(this.tile_height/2, this.h-this.tile_height/2);
+			piece.x = rand(0, this.game.w-this.tile_width/2);
+			piece.y = rand(this.tile_height/2, this.game.h-this.tile_height/2);
+
 		}
 	},
-
 	destroy: function() {
 		this.slots.forEach(function(slot) {
 			slot.destroy();
@@ -140,11 +141,10 @@ var Puzzle = new Phaser.Class({
 			piece.destroy();
 		},this);
 	},
-
 	preview_toggle: function() {
 		if (this.src_image.visible === false) {
 			this.src_image.visible = true;
-			this.world.bringToTop(this.src_image);
+			this.game.world.bringToTop(this.src_image);
 			this.pieces.forEach(function(piece) {
 				piece.visible = false;
 			},this);
@@ -155,9 +155,8 @@ var Puzzle = new Phaser.Class({
 			},this);
 		}
 	},
-
   makeBox: function(x,y) {
-      var bmd = this.add.bitmapData(x, y);
+      var bmd = this.game.add.bitmapData(x, y);
       bmd.ctx.beginPath();
       bmd.ctx.rect(0, 0, x, y);
       bmd.ctx.fillStyle = '#202020';
@@ -166,5 +165,4 @@ var Puzzle = new Phaser.Class({
       bmd.ctx.fill();
       return bmd;
     },
-	
-});
+};

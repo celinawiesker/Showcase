@@ -14,10 +14,16 @@ var PuzzleGallery = new Phaser.Class({
     //this.background = this.add.image(0,0,'play_bg')
     //background.setScale(3)
 
-    let settingsbtn = this.add.image(10, 20, 'settings');
+    let settingsbtn = this.add.image(1225, 50, 'settings');
     settingsbtn.setInteractive();
     settingsbtn.on('pointerdown', () => this.scene.start('Puzzle_Menu'))
     //settingsbtn.setScale(0.5);
+
+    let clickButton = this.add.image(50, 50, 'button_grey')
+      clickButton.setInteractive()
+      clickButton.setScale(0.15)
+      clickButton.on('pointerdown', () => this.scene.start('StartScreen'))
+
 
     //==============================================================================================
 
@@ -25,26 +31,29 @@ var PuzzleGallery = new Phaser.Class({
     //this.add.bitmapText(this.w / 2, 40, 'minecraftia', difficulty, 36).anchor.setTo(0.5);;
 
     //==============================================================================================
-
-    x = 220;
-    y = 160;
+    x = 250;
+    y = 50;
     count = 0
     for (var i = 1; i < 10; i++) {
       count += 1;
       var b = this.add.image(x, y, i.toString());
 
      // b.gallery = i.toString();
-      b.setOrigin(0.5);
-      b.scale.x = 0.3;
-      b.scale.y = 0.3;
-      b.on('pointerdown', () => this.scene.start('Puzzle_Play'))
-      x += 300;
+      b.setOrigin(0, 0);
+      b.scale = 0.35;
+      b.setInteractive();
+      b.on('pointerdown', () => {
+        this["puzzleImage"] = b;
+        console.log(this)
+        this.scene.start('Puzzle_Play')
+      })
+      x += 250;
       // y += 20;
 
       if (count === 3) {
         count = 0;
-        y += 220;
-        x = 220;
+        y += 250;
+        x = 250;
       }
     }
 
