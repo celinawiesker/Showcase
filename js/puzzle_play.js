@@ -36,8 +36,6 @@ var PuzzlePlay = new Phaser.Class({
           this.square = 10;
         }
         console.log(this.square, difficulty, level.toString(), this)
-        // this.puzzles = ['cat','prehistory','skyscrapers','boxing'];
-        // this.puzzles = ['horse','cat','apple','flower',];
 
         this.puzzle = new Puzzle(this, level.toString(), this.square);
         console.log(this.puzzle)
@@ -45,13 +43,13 @@ var PuzzlePlay = new Phaser.Class({
         this.puzzle.scatter();
 
         // Preview Button
-        this.preview_button = this.add.button(this.w - 70, 10, 'previewButton', this.puzzle.preview_toggle, this.puzzle);//this.makeBox(75, 75)
-        this.preview_button.tint = 0xff43601c;
-        this.add.image(this.w - 60, 20, 'preview');
+        // this.preview_button = this.add.button(this.w - 70, 10, 'previewButton', this.puzzle.preview_toggle, this.puzzle);//this.makeBox(75, 75)
+        // this.preview_button.tint = 0xff43601c;
+        preview_button = this.add.image(this.w - 60, 20, 'preview');
 
         // Menu Button, kann ich hier mit Bildern arbeiten?
-        this.menu_button = this.add.button(0, 10, 'menuButton', this.gotoMenu, this); // this.makeBox(75, 75)
-        this.menu_button.tint = 0xff00ff;
+        // this.menu_button = this.add.button(0, 10, 'menuButton', this.gotoMenu, this); // this.makeBox(75, 75)
+        // this.menu_button.tint = 0xff00ff;
         settingsbtn = this.add.image(10, 20, 'settings');
         //settingsbtn.setScale(0.5);
         console.log('End Game')
@@ -74,11 +72,8 @@ var PuzzlePlay = new Phaser.Class({
 
       update: function () {
 
-        // Kann man hier einbauen, dass nach einem gewonnen Spiel, direkt wieder in die Gallery gesprungen wird?
         if (this.puzzle.won === true) {
           this.input.onUp.add(this.nextLevel, this);
-          // this.win_text = this.add.bitmapText(this.w / 2, this.h / 2, 'minecraftia', 'GREAT JOB!\nClick to Play Again.', 24);
-          // this.win_text.anchor.setTo(0.5);
         }
 
       },
