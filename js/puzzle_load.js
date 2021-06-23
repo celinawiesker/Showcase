@@ -7,7 +7,7 @@ var PuzzleLoad = new Phaser.Class({
   preload: function () {
 
     this.load.image('play_bg', 'img/puzzle/play_bg.png');
-    this.load.image("button_grey", "../img/button_grey.png")
+    this.load.image("button_grey", "img/button_grey.png")
   },
   create: function () {
 
