@@ -5,21 +5,21 @@ var MemoryGame = new Phaser.Class({
     },
     init: function () { },
     preload: function () {
-        this.load.image("button_grey", "../img/button_grey.png")
-        this.load.image("memory_bg", "../img/memory_bg.png")
+        this.load.image("button_grey", "img/button_grey.png")
+        this.load.image("memory_bg", "img/memory_bg.png")
 
-        this.load.image('cherry', '../img/sky/cloud_1.png');
-        this.load.image('cake_rosa', '../img/sky/cloud_2.png');
-        this.load.image('cake_orange', '../img/sky/cloud_3.png');
-        this.load.image('cake_strawb', '../img/sky/cloud_4.png');
-        this.load.image('bananas', '../img/sky/cloud_5.png');
-        this.load.image('sandwich', '../img/sky/cloud_6.png');
-        this.load.image('muffin', '../img/sky/cloud_7.png');
-        this.load.image('orange', '../img/sky/cloud_8.png');
-        this.load.image('cake_choc', '../img/sky/cloud_9.png');
-        this.load.image('big_cake_choc', '../img/sky/cloud_10.png');
-        this.load.image('cherry_cake', '../img/sky/cloud_11.png');
-        this.load.image('waffer', '../img/sky/cloud_12.png');
+        this.load.image('cherry', 'img/sky/cloud_1.png');
+        this.load.image('cake_rosa', 'img/sky/cloud_2.png');
+        this.load.image('cake_orange', 'img/sky/cloud_3.png');
+        this.load.image('cake_strawb', 'img/sky/cloud_4.png');
+        this.load.image('bananas', 'img/sky/cloud_5.png');
+        this.load.image('sandwich', 'img/sky/cloud_6.png');
+        this.load.image('muffin', 'img/sky/cloud_7.png');
+        this.load.image('orange', 'img/sky/cloud_8.png');
+        this.load.image('cake_choc', 'img/sky/cloud_9.png');
+        this.load.image('big_cake_choc', 'img/sky/cloud_10.png');
+        this.load.image('cherry_cake', 'img/sky/cloud_11.png');
+        this.load.image('waffer', 'img/sky/cloud_12.png');
     },
     create: function () {
 
