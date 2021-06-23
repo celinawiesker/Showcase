@@ -6,16 +6,16 @@ var DragAndDrop = new Phaser.Class({
     init: function () { },
     preload: function () {
 
-        this.load.image("shell_green", "../img/underwater/shell_green.png")
-        this.load.image("shell_yellow", "../img/underwater/shell_yellow.png")
-        this.load.image("shell_pink", "../img/underwater/shell_pink.png")
-        this.load.image("shell_purple", "../img/underwater/shell_purple.png")
-        this.load.image("stone_green", "../img/underwater/stone_green.png")
-        this.load.image("stone_yellow", "../img/underwater/stone_yellow.png")
-        this.load.image("stone_pink", "../img/underwater/stone_pink.png")
-        this.load.image("stone_purple", "../img/underwater/stone_purple.png")
-        this.load.image("underwater_bg", "../img/underwater/underwater_bg.png")
-        this.load.image("button_grey", "../img/button_grey.png")
+        this.load.image("shell_green", "img/underwater/shell_green.png")
+        this.load.image("shell_yellow", "img/underwater/shell_yellow.png")
+        this.load.image("shell_pink", "img/underwater/shell_pink.png")
+        this.load.image("shell_purple", "img/underwater/shell_purple.png")
+        this.load.image("stone_green", "img/underwater/stone_green.png")
+        this.load.image("stone_yellow", "img/underwater/stone_yellow.png")
+        this.load.image("stone_pink", "img/underwater/stone_pink.png")
+        this.load.image("stone_purple", "img/underwater/stone_purple.png")
+        this.load.image("underwater_bg", "img/underwater/underwater_bg.png")
+        this.load.image("button_grey", "img/button_grey.png")
 
     },
     create: function () {
