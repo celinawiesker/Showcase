@@ -6,9 +6,9 @@ var StartScreen = new Phaser.Class({
     init: function () { },
     preload: function () {
         this.load.image("startScreen_bg", "../img/startScreen_bg.png")
-        this.load.image("stoneAndShell", "../img/stoneAndShell.png")
-        this.load.image("clouds", "../img/clouds.png")
-        this.load.image("sign", "../img/sign.png")
+        this.load.image("stoneAndShell", "../img/stoneAndShell.svg")
+        this.load.image("clouds", "../img/clouds.svg")
+        this.load.image("sign", "../img/sign.svg")
     },
     create: function () {
         /* BACKGROUND */
@@ -40,9 +40,9 @@ var StartScreen = new Phaser.Class({
         //to show that the area is clickable, but the 
         //complete area is the button so that it is easier to touch it.
 
-        this.stone_hover = this.add.image(690, 650, 'stoneAndShell')
+        this.stone_hover = this.add.image(690, 600, 'stoneAndShell')
             .setOrigin(0, 0)
-            .setScale(0.3)
+            .setScale(2)
             .setInteractive()
             .on('pointerover', () => this.hoverOverStoneAndShell())
             .on('pointerout', () => this.hoverOutStoneAndShell())
@@ -84,14 +84,14 @@ var StartScreen = new Phaser.Class({
     // Hover over functions
 
     hoverOverStoneAndShell() {
-        this.stone_hover.setScale(0.4)
-        this.stone_hover.setPosition(690, 600)
+        this.stone_hover.setScale(2.5)
+        this.stone_hover.setPosition(660, 550)
             .on('pointerdown', () => this.getToDragAndDrop())
     },
 
     hoverOutStoneAndShell() {
-        this.stone_hover.setScale(0.3)
-        this.stone_hover.setPosition(690, 650)
+        this.stone_hover.setScale(2)
+        this.stone_hover.setPosition(690, 600)
     },
 
     hoverOverClouds() {

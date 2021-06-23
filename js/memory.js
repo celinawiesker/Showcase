@@ -96,114 +96,112 @@ var MemoryGame = new Phaser.Class({
 
         init();
 
-
         function shuffleArray(inputArray) {
             inputArray.sort(() => Math.random() - 0.5);
         }
 
         function reset() {
-
             shuffleArray(cards);
-            for (let i = 0; i< 24; i++){
+            for (let i = 0; i < 24; i++) {
                 cards[i].visible = true;
                 cards[i].clearTint();
+                successful = 0;
             }
             console.log('working')
+        }
+
+        // Grid    //
+        let rows = 6;
+        let columns = 4;
+        let rowDist = 185;
+        let columnDist = 170;
+        //rows + columns == cards.length;
+
+        // For Loop //
+        let k = 0;
+        for (let i = 0; i < columns; i++) {
+            for (let j = 0; j < rows; j++) {
+                //console.log('i', i, 'j', j, 'k', k)
+                cards[k].setPosition(150 + rowDist * j, 170 + columnDist * i);
+                cards[k].setScale(0.3);
+                cards[k].setInteractive();
+                //console.log(cards[k])
+                //console.log('name', cards[k].name, 'location', cards[k].x, cards[k].y)
+                k++;
             }
+        }
+        // End for loop //
+        // End Grid //
 
 
-            // Grid    //
-            let rows = 6;
-            let columns = 4;
-            let rowDist = 185;
-            let columnDist = 170;
-            //rows + columns == cards.length;
+        let firstPress;
+        firstPress = 0;
+        this.input.on('gameobjectdown', function (pointer, gameObject) {
 
-            // For Loop //
-            let k = 0;
-            for (let i = 0; i < columns; i++) {
-                for (let j = 0; j < rows; j++) {
-                    //console.log('i', i, 'j', j, 'k', k)
-                    cards[k].setPosition(150 + rowDist * j, 170 + columnDist * i);
-                    cards[k].setScale(0.3);
-                    cards[k].setInteractive();
-                    //console.log(cards[k])
-                    //console.log('name', cards[k].name, 'location', cards[k].x, cards[k].y)
-                    k++;
-                }
-            }
-            // End for loop //
-            // End Grid //
+            checkMatch(gameObject);
 
+        });
 
-            let firstPress;
-            firstPress = 0;
-            this.input.on('gameobjectdown', function (pointer, gameObject) {
+        //this.input.on('pointerdown', checkMatch());
+        //Create Button
+        // this.clickGameObject.on('pointerdown', () => this.checkMatch())
+        // End Create Button
+        let successful = 0;
 
-                checkMatch(gameObject);
+        function checkMatch(card) {
+            if (!card.isTinted) {
+                //console.log(card.name, firstPress)
 
-            });
+                // Lila = 0xffb9b3fa
+                // Hellblau = 0xffb3fbff
+                // Hellgelb = 0xffffffbf
+                // Hellgrau = 0xffd7d7d6
+                card.setTint(0xffd7d7d6);
+                if (firstPress != 0) {
+                    // we have to check if it's a match
+                    if (card.name == firstPress.name) {
+                        //
+                        card.visible = false;
+                        firstPress.visible = false;
+                        //card.destroy();
+                        //firstPress.destroy();
+                        // console.log('Name', card.name)
+                        // console.log('First press', firstPress)
+                        console.log("Match!")
+                        successful = successful + 1;
 
-            //this.input.on('pointerdown', checkMatch());
-            //Create Button
-            // this.clickGameObject.on('pointerdown', () => this.checkMatch())
-            // End Create Button
-            let successful = 0;
-
-            function checkMatch(card) {
-                if (!card.isTinted) {
-                    //console.log(card.name, firstPress)
-
-                    // Lila = 0xffb9b3fa
-                    // Hellblau = 0xffb3fbff
-                    // Hellgelb = 0xffffffbf
-                    // Hellgrau = 0xffd7d7d6
-                    card.setTint(0xffd7d7d6);
-                    if (firstPress != 0) {
-                        // we have to check if it's a match
-                        if (card.name == firstPress.name) {
-                            //
-                            card.visible = false;
-                            firstPress.visible = false;
-                            //card.destroy();
-                            //firstPress.destroy();
-                            // console.log('Name', card.name)
-                            // console.log('First press', firstPress)
-                            console.log("Match!")
-                            successful = successful + 1;
-
-                            if (successful == 12) {
-                                console.log("nextLevel")
-                                reset();
-                            }
-
+                        if (successful == 12) {
+                            console.log("nextLevel")
+                            reset();
                         }
-                        else {
-                            card.clearTint()
-                            firstPress.clearTint()
-                            console.log("No Match!")
-                        }
-                        firstPress = 0;
+
                     }
-
                     else {
-                        // this is the firstpress
-                        firstPress = card;
+                        card.clearTint()
+                        firstPress.clearTint()
+                        console.log("No Match!")
                     }
+                    firstPress = 0;
                 }
 
-            };
+                else {
+                    // this is the firstpress
+                    firstPress = card;
+                }
+            }
 
-        }, //End create ()
+        };
 
-        update: function () { },
+    }, //End create ()
 
-        // Button Functions
-        getToStartScreen() {
-            this.scene.start('StartScreen');
-        },
-        // End Buttons functions
+    update: function () { },
+
+    // Button Functions
+    getToStartScreen() {
+        this.scene.start('StartScreen');
+    },
+    // End Buttons function
 
 
 
-    });
+});
