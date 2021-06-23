@@ -5,10 +5,10 @@ var StartScreen = new Phaser.Class({
     },
     init: function () { },
     preload: function () {
-        this.load.image("startScreen_bg", "../img/startScreen_bg.png")
-        this.load.image("stoneAndShell", "../img/stoneAndShell.svg")
-        this.load.image("clouds", "../img/clouds.svg")
-        this.load.image("sign", "../img/sign.svg")
+        this.load.image("startScreen_bg", "img/startScreen_bg.png")
+        this.load.image("stoneAndShell", "img/stoneAndShell.svg")
+        this.load.image("clouds", "img/clouds.svg")
+        this.load.image("sign", "img/sign.svg")
     },
     create: function () {
         /* BACKGROUND */
