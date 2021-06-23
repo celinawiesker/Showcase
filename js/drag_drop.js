@@ -76,7 +76,7 @@ var DragAndDrop = new Phaser.Class({
 
         let shells = [shell_green, shell_pink, shell_yellow, shell_purple];
         let stones = [stone_green, stone_pink, stone_yellow, stone_purple];
-
+        setStonesAndShells(this);
         //=================================================================================================================================//
 
         function between(min, max) {
@@ -85,120 +85,114 @@ var DragAndDrop = new Phaser.Class({
             )
         }
 
-        function reset() {
-            shuffleArray(cards);
-            for (let i = 0; i < 24; i++) {
-                cards[i].visible = true;
-                cards[i].clearTint();
-            }
-            console.log('working')
-        }
 
         //=================================================================================================================================//
 
-        // between function
-        var i = between(0, 3)
-        var j = between(0, 3)
+        function setStonesAndShells(game) {
+            // between function
+            var i = between(0, 3)
+            var j = between(0, 3)
 
 
-        for (var index in stones) {
+            for (var index in stones) {
 
-            // refereces stones and shells from the array and sets same name
-            stones[index].setScale(0.5)
-            stones[index].setPosition(stonesPos[i].x, stonesPos[i].y);
-            stones[index].setName(index)
+                // refereces stones and shells from the array and sets same name
+                stones[index].setScale(0.5)
+                stones[index].setPosition(stonesPos[i].x, stonesPos[i].y);
+                stones[index].setName(index)
 
-            shells[index].setScale(0.3)
-            shells[index].setPosition(shellsPos[j].x, shellsPos[j].y);
-            shells[index].setInteractive();
-            shells[index].setName(index)
+                shells[index].setScale(0.3)
+                shells[index].setPosition(shellsPos[j].x, shellsPos[j].y);
+                shells[index].setInteractive();
+                shells[index].setName(index)
 
-            this.input.setDraggable(shells[index]);
-
-
-            // [i] references the info fro the shells.pos array and stones.pos while [index] references the array shells und stones
-            var zone = this.add.zone(stonesPos[i].x, stonesPos[i].y, stones[index].width * 0.6, stones[index].height * 0.9).setRectangleDropZone(stones[index].width * 0.6, stones[index].height * 0.9);
-
-            zone.setScale(0.4);
-            zone.setName(index);
-
-            //  Just a visual display of the drop zone
-            var graphics = this.add.graphics();
-            graphics.lineStyle(0, 0xffff00);
-            graphics.strokeRect(zone.x - zone.input.hitArea.width / 2, zone.y - zone.input.hitArea.height / 2, zone.input.hitArea.width, zone.input.hitArea.height);
+                console.log(game)
+                game.input.setDraggable(shells[index]);
 
 
+                // [i] references the info fro the shells.pos array and stones.pos while [index] references the array shells und stones
+                var zone = game.add.zone(stonesPos[i].x, stonesPos[i].y, stones[index].width * 0.6, stones[index].height * 0.9).setRectangleDropZone(stones[index].width * 0.6, stones[index].height * 0.9);
 
-            this.input.on('dragstart', function (pointer, gameObject) {
+                zone.setScale(0.4);
+                zone.setName(index);
 
-                this.children.bringToTop(gameObject);
-
-            }, this);
-
-            this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-
-                gameObject.x = dragX;
-                gameObject.y = dragY;
-            });
-
-            this.input.on('dragenter', function (pointer, gameObject, dropZone) {
-                graphics.clear();
-                graphics.lineStyle(0, 0x00ffff);
-                graphics.strokeRect(zone.x - zone.input.hitArea.width / 2, zone.y - zone.input.hitArea.height / 2, zone.input.hitArea.width, zone.input.hitArea.height);
-
-            });
-
-            this.input.on('dragleave', function (pointer, gameObject, dropZone) {
-                graphics.clear();
+                //  Just a visual display of the drop zone
+                var graphics = game.add.graphics();
                 graphics.lineStyle(0, 0xffff00);
                 graphics.strokeRect(zone.x - zone.input.hitArea.width / 2, zone.y - zone.input.hitArea.height / 2, zone.input.hitArea.width, zone.input.hitArea.height);
 
-            });
 
-            let successful = 0;
-            this.input.on('drop', function (pointer, gameObject, dropZone) {
-                if (dropZone.name == gameObject.name) {
-                    gameObject.x = dropZone.x;
-                    gameObject.y = dropZone.y;
 
-                    gameObject.input.enabled = false;
-                    successful = successful + 1;
+                game.input.on('dragstart', function (pointer, gameObject) {
 
-                    if (successful == 4) {
-                        console.log("nextLevel",)
-                        this.scene.start('DragAndDrop');
+                    game.children.bringToTop(gameObject);
+
+                }, game);
+
+                game.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+
+                    gameObject.x = dragX;
+                    gameObject.y = dragY;
+                });
+
+                game.input.on('dragenter', function (pointer, gameObject, dropZone) {
+                    graphics.clear();
+                    graphics.lineStyle(0, 0x00ffff);
+                    graphics.strokeRect(zone.x - zone.input.hitArea.width / 2, zone.y - zone.input.hitArea.height / 2, zone.input.hitArea.width, zone.input.hitArea.height);
+
+                });
+
+                game.input.on('dragleave', function (pointer, gameObject, dropZone) {
+                    graphics.clear();
+                    graphics.lineStyle(0, 0xffff00);
+                    graphics.strokeRect(zone.x - zone.input.hitArea.width / 2, zone.y - zone.input.hitArea.height / 2, zone.input.hitArea.width, zone.input.hitArea.height);
+
+                });
+
+                let successful = 0;
+                game.input.on('drop', function (pointer, gameObject, dropZone) {
+                    if (dropZone.name == gameObject.name) {
+                        gameObject.x = dropZone.x;
+                        gameObject.y = dropZone.y;
+
+                        gameObject.input.enabled = false;
+                        successful = successful + 1;
+
+                        if (successful == 4) {
+                            console.log("nextLevel")
+                            setStonesAndShells(game);
+                        }
+
+                    }
+                    else {
+                        gameObject.x = gameObject.input.dragStartX;
+                        gameObject.y = gameObject.input.dragStartY;
+                    }
+                });
+
+                game.input.on('dragend', function (pointer, gameObject, dropped) {
+                    if (!dropped) {
+                        gameObject.x = gameObject.input.dragStartX;
+                        gameObject.y = gameObject.input.dragStartY;
                     }
 
+                    graphics.clear();
+                    graphics.lineStyle(0, 0xffff00);
+                    graphics.strokeRect(zone.x - zone.input.hitArea.width / 2, zone.y - zone.input.hitArea.height / 2, zone.input.hitArea.width, zone.input.hitArea.height);
+
+                });
+
+                // Random Zahl increment um 1 und wenn die Zahl höher als 3 ist, dann wieder auf Null, also zum Anfang
+                i = i + 1;
+                if (i == 4) {
+                    i = 0;
                 }
-                else {
-                    gameObject.x = gameObject.input.dragStartX;
-                    gameObject.y = gameObject.input.dragStartY;
+
+                j = j + 1;
+                if (j == 4) {
+                    j = 0;
                 }
-            });
-
-            this.input.on('dragend', function (pointer, gameObject, dropped) {
-                if (!dropped) {
-                    gameObject.x = gameObject.input.dragStartX;
-                    gameObject.y = gameObject.input.dragStartY;
-                }
-
-                graphics.clear();
-                graphics.lineStyle(0, 0xffff00);
-                graphics.strokeRect(zone.x - zone.input.hitArea.width / 2, zone.y - zone.input.hitArea.height / 2, zone.input.hitArea.width, zone.input.hitArea.height);
-
-            });
-
-            // Random Zahl increment um 1 und wenn die Zahl höher als 3 ist, dann wieder auf Null, also zum Anfang
-            i = i + 1;
-            if (i == 4) {
-                i = 0;
             }
-
-            j = j + 1;
-            if (j == 4) {
-                j = 0;
-            }
-
         }
 
 
